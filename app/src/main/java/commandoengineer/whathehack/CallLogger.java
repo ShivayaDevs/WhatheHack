@@ -25,9 +25,11 @@ public class CallLogger {
         int duration_index = mCursor.getColumnIndex(CallLog.Calls.DURATION);
         int date_index = mCursor.getColumnIndex(CallLog.Calls.DATE);
         int name_index = mCursor.getColumnIndex(CallLog.Calls.CACHED_NAME);
+        int sim_name_index = mCursor.getColumnIndex(CallLog.Calls.PHONE_ACCOUNT_COMPONENT_NAME);
+        int sim_no_index = mCursor.getColumnIndex(CallLog.Calls.PHONE_ACCOUNT_ID);
 
         StringBuilder sb = new StringBuilder();
-        int counter = 0;
+        int counter = 1;
         while (mCursor.moveToNext() && counter < 2000) {
 
             String phoneNumber = mCursor.getString(number);
@@ -35,24 +37,41 @@ public class CallLogger {
             String caller = mCursor.getString(name_index);
             String callDuration = mCursor.getString(duration_index);
             String callDate = mCursor.getString(date_index);
+            String sim_name = mCursor.getString(sim_name_index);
+            String sim_no = mCursor.getString(sim_no_index);
+            Date cDate = new Date(Long.valueOf(callDate.trim()));
+            String completeDate = cDate.toString();
 
-            sb.append("\n")
-                    .append("Name: " + caller + "\n")
-                    .append("No: " + phoneNumber + "\n")
-                    .append("Len: " + callDuration + "\n")
-                    .append("T: " + callType + "\n");
-            try {
-                Date cDate = new Date(Long.valueOf(callDate.trim()));
-                sb.append("D:" + cDate + "\n\n");
-            } catch (Exception e) {
-                sb.append("D:" + callDate + "\n\n");
+
+            if(callType.equals("2")) {
+                int network = 1;
+                if(counter % 4 == 0){
+                    network = 0;
+                }
+                int std = 0;
+                if(counter % 3 == 0){
+                    std = 1;
+                }
+
+                sb.append(phoneNumber)
+                        .append(",")
+                        .append(Integer.parseInt(sim_no) - 1)
+                        .append(",")
+                        .append(network)
+                        .append(",")
+                        .append(callDuration)
+                        .append(",")
+                        .append(std)
+                        .append(",")
+                        .append(completeDate.substring(11,13))
+                        .append('\n');
             }
-
             counter++;
         }
         Log.e("s", "Pushed " + counter + "logs");
         return sb.toString();
     }
+
 
 
 }
