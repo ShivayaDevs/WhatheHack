@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,8 +43,6 @@ public class SpecialPlansFragment extends Fragment {
             mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), layoutManager.getOrientation()));
             mRecyclerView.setAdapter(mAdapter);
 
-            String callLogs = new CallLogger().readCallLogs(getActivity());
-            Log.e(TAG, "onCreate:" + callLogs );
             return rootView;
         }
 

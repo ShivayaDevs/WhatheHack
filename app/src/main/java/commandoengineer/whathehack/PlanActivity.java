@@ -34,8 +34,27 @@ public class PlanActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-        new UserNotifier().sendSwitchNotification(this, "Something just for you", "Now, make calls using Airtel at just 30p/sec and save upto 40%!");
+//        new UserNotifier().sendSwitchNotification(this, "Something just for you", "Now, make calls using Airtel at just 30p/sec and save upto 40%!");
+
+
+//        String callLogs = new CallLogger().readCallLogs(this);
+//        Log.e("TAG", "onCreate:" + callLogs );
+//        new CallLogger().uploadToServer("http://10.12.63.25:5000/data", callLogs, new Callback() {
+//            @Override
+//            public void onFailure(Call call, IOException e) {
+//                Log.e("TAG", "Failed" + e);
+//            }
+//
+//            @Override
+//            public void onResponse(Call call, Response response) throws IOException {
+//                if(response.isSuccessful()){
+//                    Log.e("TAG", "Submitted" + response.body().toString());
+//                }
+//            }
+//        });
+    
     }
+
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());

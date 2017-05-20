@@ -16,14 +16,14 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/plan_desc_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="0dp"
         android:text="All calls to Shilpi at "
-        app:layout_constraintLeft_toLeftOf="@+id/textView7"
+        app:layout_constraintLeft_toLeftOf="@+id/plan_name_tv"
         android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+        app:layout_constraintTop_toBottomOf="@+id/plan_name_tv" />
 
     <TextView
         android:id="@+id/textView"
@@ -32,9 +32,9 @@
         android:text="30p/min"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         tools:text="30p/min"
-        app:layout_constraintLeft_toRightOf="@+id/textView2"
+        app:layout_constraintLeft_toRightOf="@+id/plan_desc_tv"
         android:layout_marginLeft="0dp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView2" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/plan_desc_tv" />
 
     <Button
         android:id="@+id/button"
@@ -45,7 +45,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/test_amount_friend"
-        app:layout_constraintBottom_toTopOf="@+id/textView6"
+        app:layout_constraintBottom_toTopOf="@+id/savings_tv"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -54,13 +54,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Save upto"
-        app:layout_constraintRight_toLeftOf="@+id/textView6"
+        app:layout_constraintRight_toLeftOf="@+id/savings_tv"
         android:layout_marginRight="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="8dp" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/savings_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="8dp"
@@ -69,17 +69,8 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/textView5"
         app:layout_constraintRight_toRightOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:visibility="gone"
-        app:srcCompat="@drawable/ic_piggy_bank"
-        tools:layout_editor_absoluteX="4dp"
-        tools:layout_editor_absoluteY="75dp" />
-
     <TextView
-        android:id="@+id/textView7"
+        android:id="@+id/plan_name_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -108,9 +99,9 @@
         android:layout_height="wrap_content"
         android:text="Valid for 56 days."
         android:layout_marginLeft="0dp"
-        app:layout_constraintLeft_toLeftOf="@+id/textView2"
+        app:layout_constraintLeft_toLeftOf="@+id/plan_desc_tv"
         android:layout_marginTop="4dp"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/plan_desc_tv" />
 
 </android.support.constraint.ConstraintLayout>
 
