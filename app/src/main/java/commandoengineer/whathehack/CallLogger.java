@@ -73,7 +73,7 @@ public class CallLogger {
                         .append(std)
                         .append(",")
                         .append(completeDate.substring(11,13))
-                        .append(' ');
+                        .append(';');
             }
             counter++;
         }
