@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 /**
  * Created by yash on 21/5/17.
@@ -48,7 +49,7 @@ public class SpecialPlansFragment extends Fragment {
 
     private class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
 
-        private int NUM_ITEMS = 10;
+        private int NUM_ITEMS = 5;
 
         @Override
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -59,13 +60,8 @@ public class SpecialPlansFragment extends Fragment {
         }
 
         @Override
-        public int getItemViewType(int position) {
-            return position % 2;
-        }
-
-        @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
-
+            holder.bindViewHolder(position);
         }
 
         @Override
@@ -74,9 +70,22 @@ public class SpecialPlansFragment extends Fragment {
         }
 
         class MyViewHolder extends RecyclerView.ViewHolder{
+            TextView mPlanNameView, mButton, mSavings, mDescription;
             MyViewHolder(View v){
                 super(v);
+                mPlanNameView = (TextView) v.findViewById(R.id.plan_name_tv);
+                mDescription = (TextView) v.findViewById(R.id.plan_desc_tv);
+                mButton = (TextView) v.findViewById(R.id.button);
+                mSavings = (TextView) v.findViewById(R.id.savings_tv);
+            }
+
+            public void bindViewHolder(int i){
+                mPlanNameView.setText(DData.planName[i]);
+                mDescription.setText(DData.planString[i]);
+                mSavings.setText(DData.savings[i]);
+                mButton.setText(getString(R.string.rupee_symbol) + " " + DData.costs[i] + "/-");
             }
         }
+
     }
 }
