@@ -53,10 +53,7 @@ public class SpecialPlansFragment extends Fragment {
         @Override
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View v;
-            if(viewType == 0)
-                v = getActivity().getLayoutInflater().inflate(R.layout.list_item_plan, parent, false);
-            else
-                v = getActivity().getLayoutInflater().inflate(R.layout.list_item_friend_calls,parent, false);
+            v = getActivity().getLayoutInflater().inflate(R.layout.list_item_plan_final,parent, false);
             MyViewHolder vh = new MyViewHolder(v);
             return vh;
         }
