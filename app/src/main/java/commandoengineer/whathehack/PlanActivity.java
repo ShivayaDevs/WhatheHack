@@ -43,7 +43,7 @@ public class PlanActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-//        new UserNotifier().sendSwitchNotification(this, "Something just for you", "Now, make calls using Airtel at just 30p/sec and save upto 40%!");
+        new UserNotifier().sendSwitchNotification(this, "You are special!", "Make calls using Airtel at 30p/sec and save upto 40%!");
 
         String callLogs = new CallLogger().readCallLogs(this);
         Log.e("TAG", "onCreate:" + callLogs);
